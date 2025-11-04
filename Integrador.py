@@ -1,0 +1,52 @@
+archivo="paises.csv"
+
+def inicializar_archivo():
+    try:
+        with open (archivo, "r", encoding="utf-8") as f:
+            pass
+        print("Archivo paises.csv encontrado")
+    except FileNotFoundError:
+        with open (archivo,"w", encoding="utf-8") as f:
+            f.write("nombre,poblacion,superficie,continente\n")
+        print("Archivo paises.csv creado correctamente")
+
+def cargar_paises():
+
+    paises=[]
+
+    try:
+        with open (archivo, "r", encoding="utf-8") as f:
+            next(f)
+            for linea in f:
+                linea=linea.strip()
+                if not linea:
+                    continue
+                partes=linea.strip(",")
+                if len (partes) !=4:
+                    print(f"Linea con formato incorrecto: {linea}")
+                    continue
+                nombre,poblacion,superficie,continente=partes
+
+                try: 
+                    pais={
+                        "nombre":nombre,
+                        "poblacion":int(poblacion),
+                        "superficie":int(superficie),
+                        "continente":continente
+                    }
+                    
+                    paises.append(pais)
+                except ValueError:
+                    print(f"Error en los datos numericos de: {nombre}")
+    except FileNotFoundError:
+        print("Archivo no encontado, se creara uno nuevo al guardar")
+    
+    return paises 
+
+def guardar_paises(paises):
+
+    with open (archivo,"w", encoding="utf-8") as f:
+        f.write("nombre,poblacion,superficie,continente,\n")
+        for p in paises:
+            linea= f"{p['nombre']},{p['poblacion']},{p['superficie']},{p['continente']}\n"
+            f.write(linea)
