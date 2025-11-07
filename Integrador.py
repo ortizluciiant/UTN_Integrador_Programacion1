@@ -56,16 +56,78 @@ def guardar_paises(paises):
             linea= f"{p['nombre']},{p['poblacion']},{p['superficie']},{p['continente']}\n"
             f.write(linea)
 
-#DARIO:
+def agregar_pais(paises):
+    nombre=input("Ingrese el nombre del pais: ").strip()
+    poblacion=input("Ingrese la poblacion: ").strip()
+    superficie=input("Ingrese su superficie: ").strip()
+    continente=input("Ingrese el continente: ").strip()
 
-# def agregar_paises
-# def actualizar_pais
-# def buscar_pais
+    if nombre =="" or poblacion=="" or superficie=="" or continente =="":
+        print("El campo no puede estar vacio")
+        return
+    
+    if not poblacion.isdigit() and not superficie.isdigit():
+        print("Poblacion y Superficie deben ser valores numericos")
+        return
+    
+    for p in paises:
+        if p["nombre"].lower()==nombre.lower():
+            print("El pais ya existe")
+            return
+    
+    nuevo={
+        "nombre":nombre,
+        "poblacion": int(poblacion),
+        "superficie":int(superficie),
+        "continente":(continente)
+
+    }
+    paises.append(nuevo)
+    guardar_paises(paises)
+    print("El pais fue agregado correctamente")
+    
+def actualizar_pais(paises):
+    nombre=input("Ingrese el nombre del pais que desea actualizar: ").strip()
+    encontrado=False
+
+    for p in paises:
+        if p["nombre"].lower()==nombre.lower():
+            encontrado=True
+            poblacion_nueva=input("Nueva poblacion: ").strip()
+            superficie_nueva=input("Nueva superficie: ").strip()
+
+            if not poblacion_nueva.isdigit() and not superficie_nueva.isdigit():
+                print("Los valores de Poblacion y superficie deben ser numericas")
+                return
+            p["poblacion"]=int(poblacion_nueva)
+            p["superficie"]=int(superficie_nueva)
+            guardar_paises(paises)
+            print("Se han actualizado los datos correctamente")
+            break
+
+        if not encontrado:
+            print("Pais no encontrado")
+
+def buscar_pais(paises):
+    nombre=input("Ingrese nombre del pais: ").lower()
+    encontrado=[]
+
+    for p in paises :
+        if nombre in p["nombre"].lower():
+            encontrado.append(p)
+    
+    if len(encontrado)==0:
+        print("No se encontraron paises con ese nombre")
+    
+    else:
+        mostrar_lista(encontrado)
+
+
 
 def mostrar_lista(paises):
     
     for p in paises:
-        print(f"{p['nombre']} - {p['poblacion']} hab - {p['superficie']} km² - {p['continente']}")
+        print(f"{p['nombre']} - {p['poblacion']} habitantes - {p['superficie']} km2 - {p['continente']}")
 
 def obtener_nombre(p):
     return p["nombre"]
@@ -76,28 +138,81 @@ def obtener_poblacion(p):
 def obtener_superficie(p):
     return p["superficie"]
 
-def ordenar_por_nombre(paises):
-    paises.sort(key=obtener_nombre)
+def ordenar_nombre(paises):
+    n=len(paises)
+    for i in range(n-1):
+        for j in range(i+1,n):
+         if paises[i]["nombre"].lower() > paises[j]["nombre"].lower():
+                paises[i], paises[j] = paises[j], paises[i]
+
     mostrar_lista(paises)
 
 
-def ordenar_por_poblacion(paises):
-    paises.sort(key=obtener_poblacion)
+def ordenar_poblacion(paises):
+    n=len(paises)
+    for i in range(n - 1):
+        for j in range(i + 1, n):
+            if paises[i]["poblacion"] > paises[j]["poblacion"]:
+                paises[i], paises[j] = paises[j], paises[i]
     mostrar_lista(paises)
-
-
-def ordenar_por_superficie(paises, descendente=False):
-    paises.sort(key=obtener_superficie, reverse=descendente)
+   
+def ordenar_superficie(paises): 
+    n = len(paises)
+    for i in range(n - 1):
+        for j in range(i + 1, n):
+            if paises[i]["superficie"] > paises[j]["superficie"]:
+                paises[i], paises[j] = paises[j], paises[i]
     mostrar_lista(paises)
+   
 
-#DARIO:
-# def mostrar_estadisticas
+
+def mostrar_estadisticas(paises):
+
+    if len(paises)==0:
+        print("No se han cargado paises")
+        return
+    mayor=paises[0]
+    menor=paises[0]
+    poblacion=0
+    suoerficie=0
+    continentes={}
+
+    for p in paises:
+        if p["poblacion"]>mayor["poblacion"]:
+            mayor=p
+        
+        if p["poblacion"]<menor["poblacion"]:
+            menor=p
+        
+        poblacion+=p["poblacion"]
+        superficie+=p["superficie"]
+
+        if p["continente"] in continentes:
+            continentes[p["continenete"]]+=1
+        
+        else:
+            continentes[p["continente"]]=1
+        
+    promedio_p = poblacion / len(paises)
+    promedio_s= superficie / len(paises)
+
+    print("Estadisticas:" )
+    print(f"Pais con mayor poblacion: {mayor['nombre']} ({mayor['poblacion']})")
+    print(f"Pais con menor poblacion: {menor['nombre']} ({menor['poblacion']})")
+    print(f"Poblacion promedio: {promedio_p}")
+    print(f"Superficie promedio: {promedio_s}")
+    print("\n Cantidad de paises por continente:")
+
+    for i in continentes:
+        print(f"{i}: {continentes[i]}")
+        
+
 
 def menu():
     paises = cargar_paises()
 
     while True:
-        print("\nMENÚ ")
+        print("\nMENU: ")
         print("1. Agregar país")
         print("2. Buscar país")
         print("3. Ordenar por nombre")
@@ -114,11 +229,11 @@ def menu():
             case "2":
                 buscar_pais(paises)
             case "3":
-                ordenar_por_nombre(paises)
+                ordenar_nombre(paises)
             case "4":
-                ordenar_por_poblacion(paises)
+                ordenar_poblacion(paises)
             case "5":
-                ordenar_por_superficie(paises, descendente=True)
+                ordenar_superficie(paises, descendente=True)
             case "6":
                 mostrar_estadisticas(paises)
             case "7":
