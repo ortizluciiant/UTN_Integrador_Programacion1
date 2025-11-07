@@ -147,7 +147,6 @@ def ordenar_nombre(paises):
 
     mostrar_lista(paises)
 
-
 def ordenar_poblacion(paises):
     n=len(paises)
     for i in range(n - 1):
