@@ -84,7 +84,7 @@ def agregar_pais(paises):
     }
     paises.append(nuevo)
     guardar_paises(paises)
-    print("El pais fue agregado correctamente")
+    print("\nEl pais fue agregado correctamente")
     
 def actualizar_pais(paises):
     nombre=input("Ingrese el nombre del pais que desea actualizar: ").strip()
@@ -167,41 +167,44 @@ def ordenar_superficie(paises):
 
 
 def mostrar_estadisticas(paises):
-
-    if len(paises)==0:
+    if len(paises) == 0:
         print("No se han cargado paises")
         return
-    mayor=paises[0]
-    menor=paises[0]
-    poblacion=0
-    suoerficie=0
-    continentes={}
+
+    mayor = paises[0]
+    menor = paises[0]
+    poblacion = 0
+    superficie = 0
+    continentes = {}
 
     for p in paises:
-        if p["poblacion"]>mayor["poblacion"]:
-            mayor=p
         
-        if p["poblacion"]<menor["poblacion"]:
-            menor=p
-        
-        poblacion+=p["poblacion"]
-        superficie+=p["superficie"]
+        if p["poblacion"] > mayor["poblacion"]:
+            mayor = p
+        if p["poblacion"] < menor["poblacion"]:
+            menor = p
 
+    
+        poblacion += p["poblacion"]
+        superficie += p["superficie"]
+
+        
         if p["continente"] in continentes:
-            continentes[p["continenete"]]+=1
-        
+            continentes[p["continente"]] += 1
         else:
-            continentes[p["continente"]]=1
-        
-    promedio_p = poblacion / len(paises)
-    promedio_s= superficie / len(paises)
+            continentes[p["continente"]] = 1
 
-    print("Estadisticas:" )
-    print(f"Pais con mayor poblacion: {mayor['nombre']} ({mayor['poblacion']})")
-    print(f"Pais con menor poblacion: {menor['nombre']} ({menor['poblacion']})")
-    print(f"Poblacion promedio: {promedio_p}")
+   
+    promedio_p = poblacion / len(paises)
+    promedio_s = superficie / len(paises)
+
+
+    print("Estadísticas:")
+    print(f"\nPaís con mayor población: {mayor['nombre']} ({mayor['poblacion']})")
+    print(f"País con menor población: {menor['nombre']} ({menor['poblacion']})")
+    print(f"Población promedio: {promedio_p}")
     print(f"Superficie promedio: {promedio_s}")
-    print("\n Cantidad de paises por continente:")
+    print("\nCantidad de países por continente:")
 
     for i in continentes:
         print(f"{i}: {continentes[i]}")
@@ -209,23 +212,26 @@ def mostrar_estadisticas(paises):
 
 
 def menu():
+    inicializar_archivo()
     paises = cargar_paises()
 
     while True:
-        print("\nMENU: ")
-        print("1. Agregar país")
+        print("\nMENU:")
+        print("\n1. Agregar país")
         print("2. Buscar país")
         print("3. Ordenar por nombre")
         print("4. Ordenar por población")
-        print("5. Ordenar por superficie (descendente)")
+        print("5. Ordenar por superficie")
         print("6. Mostrar estadísticas")
         print("7. Salir")
 
-        opcion = input("Seleccione una opción: ").strip()
+        opcion = input("\nSeleccione una opción: ").strip()
+        
 
         match opcion:
             case "1":
                 agregar_pais(paises)
+                paises = cargar_paises() 
             case "2":
                 buscar_pais(paises)
             case "3":
@@ -240,7 +246,7 @@ def menu():
                 print("Muchas gracias, hasta pronto.")
                 break
             case _:
-                print("Opción inválida.Intente nuevamente.")
+                print("Opción inválida. Intente nuevamente.")
 
-#######Finalizado#########
-
+if __name__ == "__main__":
+    menu()
