@@ -66,7 +66,7 @@ def agregar_pais(paises):
         print("El campo no puede estar vacio")
         return
     
-    if not poblacion.isdigit() and not superficie.isdigit():
+    if not poblacion.isdigit() or not superficie.isdigit():
         print("Poblacion y Superficie deben ser valores numericos")
         return
     
@@ -96,7 +96,7 @@ def actualizar_pais(paises):
             poblacion_nueva=input("Nueva poblacion: ").strip()
             superficie_nueva=input("Nueva superficie: ").strip()
 
-            if not poblacion_nueva.isdigit() and not superficie_nueva.isdigit():
+            if not poblacion_nueva.isdigit() or not superficie_nueva.isdigit():
                 print("Los valores de Poblacion y superficie deben ser numericas")
                 return
             p["poblacion"]=int(poblacion_nueva)
@@ -122,7 +122,43 @@ def buscar_pais(paises):
     else:
         mostrar_lista(encontrado)
 
+def filtrar_paises(paises):
+    print("\nFiltrar países por:")
+    print("1. Continente")
+    print("2. Rango de población")
+    print("3. Rango de superficie")
+    opcion = input("Seleccione una opción: ").strip()
 
+    filtrados = []
+
+    if opcion == "1":
+        continente = input("Ingrese el continente: ").strip().lower()
+        for p in paises:
+            if p["continente"].lower() == continente:
+                filtrados.append(p)
+
+    elif opcion == "2":
+        min_pob = int(input("Ingrese población mínima: "))
+        max_pob = int(input("Ingrese población máxima: "))
+        for p in paises:
+            if min_pob <= p["poblacion"] <= max_pob:
+                filtrados.append(p)
+
+    elif opcion == "3":
+        min_sup = int(input("Ingrese superficie mínima: "))
+        max_sup = int(input("Ingrese superficie máxima: "))
+        for p in paises:
+            if min_sup <= p["superficie"] <= max_sup:
+                filtrados.append(p)
+    else:
+        print("Opción inválida.")
+        return
+
+    if len(filtrados) == 0:
+        print("No se encontraron países con esos criterios.")
+    else:
+        print("\nPaíses filtrados:")
+        mostrar_lista(filtrados)
 
 def mostrar_lista(paises):
     
@@ -219,11 +255,12 @@ def menu():
         print("\nMENU:")
         print("\n1. Agregar país")
         print("2. Buscar país")
-        print("3. Ordenar por nombre")
-        print("4. Ordenar por población")
-        print("5. Ordenar por superficie")
-        print("6. Mostrar estadísticas")
-        print("7. Salir")
+        print("3. Filtrar pais")
+        print("4. Ordenar por nombre")
+        print("5. Ordenar por población")
+        print("6. Ordenar por superficie")
+        print("7. Mostrar estadísticas")
+        print("8. Salir")
 
         opcion = input("\nSeleccione una opción: ").strip()
         
@@ -235,14 +272,16 @@ def menu():
             case "2":
                 buscar_pais(paises)
             case "3":
-                ordenar_nombre(paises)
+                filtrar_paises(paises)
             case "4":
-                ordenar_poblacion(paises)
+                ordenar_nombre(paises)
             case "5":
-                ordenar_superficie(paises)
+                ordenar_poblacion(paises)
             case "6":
-                mostrar_estadisticas(paises)
+                ordenar_superficie(paises)
             case "7":
+                mostrar_estadisticas(paises)
+            case "8":
                 print("Muchas gracias, hasta pronto.")
                 break
             case _:
