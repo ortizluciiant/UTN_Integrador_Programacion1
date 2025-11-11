@@ -70,6 +70,21 @@ America: 2
 Asia: 3
 Europa: 1
 
+DESARROLLO:
+Ortiz Lucia:
+Implementación de funciones para cargar, agregar y actualizar países en el archivo CSV.
+Creación de funciones de búsqueda, ordenamiento 
+Desarrollo de la función de estadísticas, incluyendo cálculo de promedios, identificación de países con mayor y menor población, y conteo de países por continente.
+Implementación del menú de navegación en consola y control de flujo con match.
+Validaciones de entradas de usuario y manejo de errores.
+
+Demarco Ramiro:
+Pruebas de funcionamiento del código, verificando que todas las opciones del menú funcionen correctamente.
+Evaluación y mejoras del menú
+Desarrollo de la función filtrar_paises
+Generación de capturas de pantalla y preparación de ejemplos de ejecución.
+Mejoras en las funciones de búsqueda y ordenamiento
+
 
 
 
