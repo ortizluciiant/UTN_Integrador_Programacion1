@@ -105,8 +105,8 @@ def actualizar_pais(paises):
             print("Se han actualizado los datos correctamente")
             break
 
-        if not encontrado:
-            print("Pais no encontrado")
+    if not encontrado:
+        print("\nPais no encontrado")
 
 def buscar_pais(paises):
     nombre=input("Ingrese nombre del pais: ").lower()
@@ -260,7 +260,9 @@ def menu():
         print("5. Ordenar por población")
         print("6. Ordenar por superficie")
         print("7. Mostrar estadísticas")
-        print("8. Salir")
+        print("8. Actualizar pais")
+        print("9. Salir")
+
 
         opcion = input("\nSeleccione una opción: ").strip()
         
@@ -282,6 +284,8 @@ def menu():
             case "7":
                 mostrar_estadisticas(paises)
             case "8":
+                actualizar_pais(paises)
+            case "9":
                 print("Muchas gracias, hasta pronto.")
                 break
             case _:
